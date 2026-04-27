@@ -1,0 +1,10 @@
+runpod
+requests
+Pillow
+boto3
+diffusers
+transformers
+torch
+accelerate
+huggingface-hub
+safetensors
