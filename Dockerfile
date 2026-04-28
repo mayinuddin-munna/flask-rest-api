@@ -1,29 +1,17 @@
-FROM runpod/base:1.0.3-cuda1290-ubuntu2204
+# Use an official Python runtime as base image
+FROM python:3.11-slim
 
-ENV PYTHONUNBUFFERED=1
-WORKDIR /workspace
+# Set the working directory inside the container
+WORKDIR /app
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
-    ffmpeg \
-    libgl1-mesa-glx \
-    libglib2.0-0 \
- && rm -rf /var/lib/apt/lists/*
+# Copy the application code
+COPY app.py .
 
-COPY requirements.txt /workspace/
-RUN python -m pip install --upgrade pip setuptools wheel && \
-    python -m pip install -r requirements.txt
+# Install Flask
+RUN pip install --no-cache-dir flask
 
-COPY comfyui_start.sh /workspace/
-COPY handler.py /workspace/
+# Expose port 5000 (the port your Flask app runs on)
+EXPOSE 5000
 
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git /workspace/ComfyUI
-RUN mkdir -p /workspace/ComfyUI/custom_nodes && \
-    git clone https://github.com/Comfy-Org/ComfyUI-Z-Image-Turbo.git /workspace/ComfyUI/custom_nodes/ComfyUI-Z-Image-Turbo || true
-
-WORKDIR /workspace/ComfyUI
-RUN if [ -f requirements.txt ]; then python -m pip install -r requirements.txt || true; fi
-WORKDIR /workspace
-RUN chmod +x comfyui_start.sh
-
-CMD ["./comfyui_start.sh"]
+# Run the application
+CMD ["python", "app.py"]
