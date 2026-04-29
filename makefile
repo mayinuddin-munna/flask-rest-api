@@ -14,10 +14,10 @@ push:
 	docker push $(IMAGE_NAME):$(IMAGE_TAG)
 
 deploy:
-	kubectl apply -f deployment.yaml -f service.yaml --namespace $(KUBE_NAMESPACE)
+	kubectl apply -f deployment.yml -f service.yaml --namespace $(KUBE_NAMESPACE)
 	@echo "Deployed $(IMAGE_NAME):$(IMAGE_TAG) to namespace $(KUBE_NAMESPACE)"
 
 clean:
-	kubectl delete -f deployment.yaml -f service.yaml --namespace $(KUBE_NAMESPACE) || true
+	kubectl delete -f deployment.yml -f service.yaml --namespace $(KUBE_NAMESPACE) || true
 
 .PHONY: all build push deploy clean
