@@ -1,4 +1,4 @@
-# Variables
+# Variables #just wow
 IMAGE_TAG ?= v1.0.1
 IMAGE_NAME ?= mayinuddinmunna/flask-app
 KUBE_NAMESPACE ?= default
